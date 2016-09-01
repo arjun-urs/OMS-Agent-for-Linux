@@ -39,9 +39,28 @@ module OperationModule
 
       return {}
     end
+
+    def filter_generic(record,time)
+      if record.is_a?(Hash) && !record.empty? && record.has_key?("message")
+        dataitem = {}
+        dataitem["Timestamp"] = OMS::Common.format_time(time)
+        dataitem["OperationStatus"] = "Warning"
+        dataitem["Computer"] = OMS::Common.get_hostname or "Unknown host"
+        dataitem["Detail"] = record["message"]
+        return dataitem
+      end
+      return {}
+    end
  
-    def filter_and_wrap(record, time)
-      data_item = filter(record, time)
+    def filter_and_wrap(tag, record, time)
+      tag_type = tag.sub(/^oms.operation./,'')
+      case tag_type
+      when "buffer"
+        data_item = filter(record, time)
+      when "dsc" 
+        data_item = filter_generic(record, time)
+      end
+
       if (data_item != nil and data_item.size > 0)
         wrapper = {
          "DataType"=>"OPERATION_BLOB",
