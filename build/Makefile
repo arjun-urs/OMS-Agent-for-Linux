@@ -126,6 +126,7 @@ clean : clean-status
 clean-ruby : clean
 	sudo $(RMDIR) $(BASE_DIR)/intermediate
 	sudo $(RMDIR) $(RUBY_DIR)/.ext
+	sudo $(RMDIR) /usr/local/ruby-2.2.0*
 	#
 	# Warning: This step will clean out checked out files from Ruby directory
 	#
@@ -193,7 +194,6 @@ $(RUBY_TESTING_DIR) :
 	# Warning: This step will clean out checked out files from both Ruby and fluentd directories
 	#
 	@$(ECHO) "========================= Performing Building Ruby for testing"
-	sudo $(RMDIR) /usr/local/ruby-2.2.0*
 	$(BASE_DIR)/build/buildRuby.sh test
 
 # Build the version of Ruby that we distribute
