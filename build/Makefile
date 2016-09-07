@@ -126,7 +126,6 @@ clean : clean-status
 clean-ruby : clean
 	sudo $(RMDIR) $(BASE_DIR)/intermediate
 	sudo $(RMDIR) $(RUBY_DIR)/.ext
-	sudo $(RMDIR) /usr/local/ruby-2.2.0*
 	#
 	# Warning: This step will clean out checked out files from Ruby directory
 	#
