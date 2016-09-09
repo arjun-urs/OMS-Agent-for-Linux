@@ -64,6 +64,7 @@ usage()
     echo "                         ex: opinsights.azure.us (for FairFax)"
     echo "  -p conf, --proxy conf  Use <conf> as the proxy configuration."
     echo "                         ex: -p [protocol://][user:password@]proxyhost[:port]"
+    echo "  -a id                  Use Azure Resource ID <id>."
     echo
     echo "  -? | -h | --help       shows this usage text."
 }
@@ -558,6 +559,11 @@ do
             shift 1
             ;;
 
+        -a|--id)
+            azureResourceID=$2
+            shift 2
+            ;;
+
         -\? | -h | --help)
             usage `basename $0` >&2
             cleanup_and_exit 0
@@ -600,6 +606,10 @@ if [ -n "$onboardID" -a -n "$onboardKey" ]; then
 
     if [ -n "$topLevelDomain" ]; then
         echo "URL_TLD=$topLevelDomain" >> $ONBOARD_FILE
+    fi
+
+    if [ -n "$azureResourceID" ]; then
+        echo "AZURE_RESOURCE_ID=$azureResourceID" >> $ONBOARD_FILE
     fi
 fi
 
